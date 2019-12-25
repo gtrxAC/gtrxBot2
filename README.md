@@ -29,11 +29,9 @@ Example: `gbemoji hmm aPepeReee aYouTried`
 `sayas <user> <message ...>`: Says a command as a look-alike of another user, using webhooks.
 
 ### Image commands
-All image commands operate on an attachment, image URL or the avatar of a mentioned user.
-`gbsomeimagecommand http://link.to/image.png`
-`gbsomeimagecommand @>gtrx<#6036`
-
-Image commands are currently our main focus, so expect more image commands soon.
+Image commands are currently our main focus, so expect more image commands soon. All image commands operate on an attachment, image URL or the avatar of a mentioned user.
+* `gbsomeimagecommand http://link.to/image.png`
+* `gbsomeimagecommand @>gtrx<#6036`
 
 `iscale [image] <width> <height>`: Resizes an image.
 
