@@ -1,0 +1,31 @@
+{
+  "name": "gtrxbot2",
+  "version": "2.0.0",
+  "description": "Utility discord bot with image editing commands",
+  "main": "bot.js",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "gm": "^1.23.1",
+    "node-fetch": "^2.6.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node bot.js"
+  },
+  "keywords": [
+    "discord",
+    "api",
+    "bot"
+  ],
+  "author": "gtrxAC",
+  "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gtrxAC/gtrxBot2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gtrxAC/gtrxBot2/issues"
+  },
+  "homepage": "https://github.com/gtrxAC/gtrxBot2#readme"
+}
