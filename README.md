@@ -2,22 +2,21 @@
 Utility discord bot (discord.js) with image editing commands.
 
 ## Commands
-All commands must be prefixed with `gb`, for example `gbhelp`. You can change the prefix if self hosting.
-Commands can be viewed using the `help` command.
+All commands must be prefixed with `gb`, for example `gbhelp`. You can change the prefix if self hosting. Commands can be viewed using the `help` command.
 
 ### Utility commands
 `embed <title>|[description]|[footer]|[color]`: Creates an embed message.
-Example: `gbembed Embed Test|Lorem ipsum dolor sit amet|Note: I'm a footer|RED`
-`color` must match [this](https://discord.js.org/#/docs/main/stable/typedef/ColorResolvable) definition.
+* Example: `gbembed Embed Test|Lorem ipsum dolor sit amet|Note: I'm a footer|RED`
+* `[color]` must match [this](https://discord.js.org/#/docs/main/stable/typedef/ColorResolvable) definition.
 
 `help [-p] [cmd]`: Shows available commands or info about one command.
--p: Shows help in the current channel instead of DMs.
-cmd: Command to show info on.
+* -p: Shows help in the current channel instead of DMs.
+* cmd: Command to show info on.
 
 `invite`: Gets the invite link for the bot (if you're self hosting, change the link to your own bot's link)
 
 `nitro <emoji ...>`: Sends all the specified emoji, useful for sending nitro emoji without a subscription.
-Example: `gbemoji hmm aPepeReee aYouTried`
+* Example: `gbemoji hmm aPepeReee aYouTried`
 
 `say <message ...>`: Sends a message as the bot account and deletes the command message.
 
