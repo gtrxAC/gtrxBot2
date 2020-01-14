@@ -1,0 +1,23 @@
+const Discord = require('discord.js');
+
+module.exports = {
+	name: '',
+    aliases: [],
+	description: '',
+    usage: '',
+    args: false,
+    guildOnly: false,
+    ownerOnly: false,
+	async execute(message, args) {
+        try {
+
+        } catch (error) {
+            const embed = new Discord.RichEmbed()
+            .setColor(0x7289DA)
+            .setTitle('<:mdError:568466408250408970> Error')
+            .setDescription(`\`${error}\``)
+            .setFooter(new Date().toISOString());
+            message.channel.send(embed);
+        }
+	},
+};

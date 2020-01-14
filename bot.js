@@ -14,6 +14,10 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command);
 }
 
+//make a list for the last deleted message of each channel (for snipe command)
+const lastDel = new Discord.Collection();
+client.lastDel = lastDel;
+
 //load configuration from config.json - this has the bot token, prefix and owner ID
 const config = require('./config.json');
 client.config = config;
@@ -110,6 +114,11 @@ client.on('message', (message) => {
         message.channel.send(embed);
         console.error(error);
     }
+});
+
+//add deleted messages to the list so the snipe command can load them
+client.on('messageDelete', (message) => {
+    client.lastDel.set(message.channel.id, {author: message.author.tag, content: message.content});
 });
 
 //log in to Discord with the bot token in config.json

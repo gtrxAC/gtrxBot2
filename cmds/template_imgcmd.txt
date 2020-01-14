@@ -1,0 +1,34 @@
+const Discord = require('discord.js');
+const gm = require('gm')
+const request = require('request');
+
+module.exports = {
+	name: '',
+    aliases: [],
+	description: '',
+    usage: '',
+    args: false,
+    guildOnly: false,
+    ownerOnly: false,
+	async execute(message, args) {
+        try {
+            let link = message.author.avatarURL;
+            if (args.length && message.mentions.users.size) link = message.mentions.users.first().avatarURL;
+            if (args.length && !message.mentions.users.size) link = args[0];
+            if (!args.length && message.attachments.size) link = message.attachments.first().url;
+            gm(request(link))
+            //do command stuff here
+            .toBuffer('PNG', (err, buffer) => {
+               if (err) throw "error writing output image "+err;
+               message.channel.send({files: [buffer]});
+            });
+        } catch (error) {
+            const embed = new Discord.RichEmbed()
+            .setColor(0x7289DA)
+            .setTitle('<:mdError:568466408250408970> Error')
+            .setDescription(`\`${error}\``)
+            .setFooter(new Date().toISOString());
+            message.channel.send(embed);
+        }
+	},
+};
