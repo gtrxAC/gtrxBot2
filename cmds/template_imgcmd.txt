@@ -13,9 +13,13 @@ module.exports = {
 	async execute(message, args) {
         try {
             let link = message.author.avatarURL;
-            if (args.length && message.mentions.users.size) link = message.mentions.users.first().avatarURL;
+            const lastMsgs = await message.channel.fetchMessages(10);
+            const attachmentMsg = lastMsgs.find((msg) => msg.attachments.size);
+            if (attachmentMsg) link = attachmentMsg.attachments.first().url;
+            if (message.mentions.users.size) link = message.mentions.users.first().avatarURL;
+            if (message.attachments.size) link = message.attachments.first().url;
             if (args.length && !message.mentions.users.size) link = args[0];
-            if (!args.length && message.attachments.size) link = message.attachments.first().url;
+            
             gm(request(link))
             //do command stuff here
             .toBuffer('PNG', (err, buffer) => {

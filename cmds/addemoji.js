@@ -11,18 +11,16 @@ module.exports = {
     cooldown: 6,
 	async execute(message, args) {
         try {
-            let link;
-            let name;
             if (args.length > 2) throw "too many arguments (max 2)";
-            if (args.length == 1) {
-                if (message.attachments.size) {
-                    link = message.attachments.first().url;
-                    name = args[0];
-                } else {throw "no image attached"};
-            } else {
-                link = args[0];
-                name = args[1];
-            };
+            const name = args[args.length - 1];
+            let link = message.author.avatarURL;
+            const lastMsgs = await message.channel.fetchMessages(10);
+            const attachmentMsg = lastMsgs.find((msg) => msg.attachments.size);
+            if (attachmentMsg) link = attachmentMsg.attachments.first().url;
+            if (message.mentions.users.size) link = message.mentions.users.first().avatarURL;
+            if (message.attachments.size) link = message.attachments.first().url;
+            if (args.length == 2 && !message.mentions.users.size) link = args[0];
+
             message.guild.createEmoji(link, name).then((emoji) => {
                 const embed = new Discord.RichEmbed()
                 .setColor(0x7289DA)
