@@ -41,6 +41,8 @@ All image commands operate on an attachment, image URL or the avatar of a mentio
 
 `addemoji [image] <name>`: Create an emoji on this server.
 
+`iinside [image] <text ...>`: Meme generator - I'm sick of crying, tired of trying, yeah I'm smiling but inside I'm (your text)...
+
 `iscale [image] <width> <height>`: Resizes an image.
 
 ### Owner only commands
@@ -52,9 +54,8 @@ All image commands operate on an attachment, image URL or the avatar of a mentio
 Required modules:
 
 * discord.js (v11)
-* gm (for image editing commands)
-* node-fetch (for emoji command, uses json)
-* request (for image editing commands, uses stream/buffer)
+* canvas (for image editing commands)
+* node-fetch (for emoji command)
 
 1. Install [node.js](https://nodejs.org/) and [npm](http://npmjs.com).
 2. Make a new folder, name it something you can remember.

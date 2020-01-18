@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
-const gm = require('gm')
-const request = require('request');
+const Canvas = require('canvas');
 
 module.exports = {
 	name: 'iscale',
@@ -15,30 +14,24 @@ module.exports = {
         try {
             if (args.length > 3) throw "too many arguments (max 3)";
             if (args.length < 2) throw "too few arguments (min 2)";
-            let output;
             let link = message.author.avatarURL;
             const lastMsgs = await message.channel.fetchMessages(10);
             const attachmentMsg = lastMsgs.find((msg) => msg.attachments.size);
+            if (args.length && !attachmentMsg && !message.mentions.users.size &&
+                !message.attachments.size) link = args.shift();
             if (attachmentMsg) link = attachmentMsg.attachments.first().url;
             if (message.mentions.users.size) link = message.mentions.users.first().avatarURL;
             if (message.attachments.size) link = message.attachments.first().url;
-            if (args.length == 3 && !message.mentions.users.size) link = args[0];
 
-            gm(request(link))
-            .resize(args[args.length-2], args[args.length-1], '!')
-            .toBuffer('PNG', (err, buffer) => {
-                try {
-                    if (err) throw "error writing output image\n"+err;
-                    message.channel.send({files: [buffer]});
-                } catch (error) {
-                    const embed = new Discord.RichEmbed()
-                    .setColor(0x7289DA)
-                    .setTitle('<:mdError:568466408250408970> Error')
-                    .setDescription(`\`${error}\``)
-                    .setFooter(new Date().toISOString());
-                    message.channel.send(embed);
-                }
-            });
+            const x = Number(args[0]);
+            const y = Number(args[1]);
+
+            const canvas = Canvas.createCanvas(x, y);
+            const ctx = canvas.getContext('2d');
+
+            const image = await Canvas.loadImage(link);
+            ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+            message.channel.send({files: [canvas.toBuffer()]});
         } catch (error) {
             const embed = new Discord.RichEmbed()
             .setColor(0x7289DA)
@@ -46,6 +39,7 @@ module.exports = {
             .setDescription(`\`${error}\``)
             .setFooter(new Date().toISOString());
             message.channel.send(embed);
+            console.log(error);
         }
 	},
 };
