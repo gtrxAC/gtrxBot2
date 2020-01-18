@@ -59,7 +59,7 @@ Required modules:
 
 1. Install [node.js](https://nodejs.org/) and [npm](http://npmjs.com).
 2. Make a new folder, name it something you can remember.
-3. Open terminal and install modules. `npm install discord.js gm node-fetch request`
+3. Open terminal and install modules. `npm install discord.js canvas node-fetch`
 4. Create a [bot account](https://discordapp.com/developers/applications), if you haven't already.
 5. Add your bot to a server, go to your app's page > OAuth2 > URL Generator > select "bot" and from the below list, choose "administrator". Copy the link to your browser and choose a server.
 6. Get the token for your bot, go to your app's page > Bot > Click to reveal token.
