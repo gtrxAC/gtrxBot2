@@ -4,7 +4,7 @@ module.exports = {
 	name: 'addemoji',
     aliases: ['a', 'addemote'],
 	description: 'Adds an emoji to this server',
-    usage: '[attachment/url] <name>',
+    usage: '[image attachment/url/@user] <name>',
     args: true,
     guildOnly: true,
     ownerOnly: false,

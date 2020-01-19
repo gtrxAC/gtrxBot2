@@ -2,11 +2,11 @@ const Discord = require('discord.js');
 const Canvas = require('canvas');
 
 module.exports = {
-	name: 'iinside',
-    aliases: ['ii'],
-	description: 'Memegen: I\'m sick of crying, tired of trying, yeah I\'m smiling but inside I\'m...',
-    usage: '[image attachment/url/@user] <text ...>',
-    args: true,
+	name: 'ibeautiful',
+    aliases: ['ib'],
+	description: 'Memegen: You ever just cry because of how beautiful something is? (Your image) Yes :(',
+    usage: '[image attachment/url/@user]',
+    args: false,
     guildOnly: false,
     ownerOnly: false,
 	async execute(message, args) {
@@ -20,19 +20,14 @@ module.exports = {
             if (message.mentions.users.size) link = message.mentions.users.first().avatarURL;
             if (message.attachments.size) link = message.attachments.first().url;
 
-            const canvas = Canvas.createCanvas(1000, 1140);
+            const canvas = Canvas.createCanvas(640, 853);
             const ctx = canvas.getContext('2d');
             
-            const background = await Canvas.loadImage('./assets/inside.png');
-            ctx.drawImage(background, 0, 0, 1000, 1140);
+            const background = await Canvas.loadImage('./assets/beautiful.png');
+            ctx.drawImage(background, 0, 0, 640, 853);
 
             const image = await Canvas.loadImage(link);
-            ctx.drawImage(image, 16, 745, 395, 395);
-
-            ctx.font = '72px sans-serif';
-            ctx.fillStyle = '#ffffff';
-            const width = ctx.measureText(args.join(' ')).width
-            ctx.fillText(args.join(' '), 450, 1000, 511);
+            ctx.drawImage(image, 26, 117, 438, 576);
 
             message.channel.send({files: [canvas.toBuffer()]});
         } catch (error) {

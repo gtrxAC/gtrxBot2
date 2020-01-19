@@ -2,10 +2,10 @@ const Discord = require('discord.js');
 const Canvas = require('canvas');
 
 module.exports = {
-	name: 'iinside',
-    aliases: ['ii'],
-	description: 'Memegen: I\'m sick of crying, tired of trying, yeah I\'m smiling but inside I\'m...',
-    usage: '[image attachment/url/@user] <text ...>',
+	name: 'imaul',
+    aliases: ['im'],
+	description: 'Memegen: Darth Maul with dual lightsaber',
+    usage: '<text1 ...>|<text2 ...>',
     args: true,
     guildOnly: false,
     ownerOnly: false,
@@ -20,19 +20,22 @@ module.exports = {
             if (message.mentions.users.size) link = message.mentions.users.first().avatarURL;
             if (message.attachments.size) link = message.attachments.first().url;
 
-            const canvas = Canvas.createCanvas(1000, 1140);
+            const canvas = Canvas.createCanvas(2265, 1509);
             const ctx = canvas.getContext('2d');
             
-            const background = await Canvas.loadImage('./assets/inside.png');
-            ctx.drawImage(background, 0, 0, 1000, 1140);
+            const background = await Canvas.loadImage('./assets/maul.png');
+            ctx.drawImage(background, 0, 0, 2265, 1509);
 
-            const image = await Canvas.loadImage(link);
-            ctx.drawImage(image, 16, 745, 395, 395);
+            args = args.join(' ').split('|');
+            if (args.length < 2) throw 'use 2 text arguments separated by a |';
+            if (args.length > 2) throw 'too many arguments (max 2)';
 
-            ctx.font = '72px sans-serif';
+            ctx.font = '112px sans-serif';
             ctx.fillStyle = '#ffffff';
-            const width = ctx.measureText(args.join(' ')).width
-            ctx.fillText(args.join(' '), 450, 1000, 511);
+
+            ctx.fillText(args[0], 60, 490, 960);
+            ctx.fillText(args[0], 50, 1070, 960);
+            ctx.fillText(args[1], 1460, 1150, 760);
 
             message.channel.send({files: [canvas.toBuffer()]});
         } catch (error) {

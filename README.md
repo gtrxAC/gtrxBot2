@@ -1,5 +1,7 @@
-# gtrxBot² (in development)
+# gtrxBot²
 Utility discord bot (discord.js) with image editing commands.
+[Support Server](https://discord.gg/bRTPbpg)
+[Invite Link](https://discordapp.com/api/oauth2/authorize?client_id=568738663572176916&permissions=8&scope=bot)
 
 ## Commands
 All commands must be prefixed with `gb`, for example `gbhelp`. You can change the prefix if self hosting.
@@ -41,7 +43,11 @@ All image commands operate on an attachment, image URL or the avatar of a mentio
 
 `addemoji [image] <name>`: Create an emoji on this server.
 
+`ibeautiful [image]`: Meme generator - "You ever just cry because of how beautiful something is?" (Your image) "Yes :("
+
 `iinside [image] <text ...>`: Meme generator - I'm sick of crying, tired of trying, yeah I'm smiling but inside I'm (your text)...
+
+`imaul <text1 ...>|<text2 ...>`: Meme generator - Darth Maul with dual lightsaber
 
 `iscale [image] <width> <height>`: Resizes an image.
 
@@ -68,7 +74,7 @@ Required modules:
 ```json
 {
     "token": "Your token here",
-    "owner": "Your ID here",
+    "owner": "Your user ID here",
     "prefix": "Bot's prefix here, default is gb"
 }
 ```
