@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const fetch = require('node-fetch');
+const tools = require('../tools');
 
 module.exports = {
 	name: 'emoji',
@@ -27,16 +28,10 @@ module.exports = {
             `Category: ${category}\n`+
             `Faves:    ${emoji.faves}\`\`\``)
             .setFooter(`ID: ${emoji.id} | ${new Date().toISOString()}`);
-            message.channel.send(embed);
+            await message.channel.send(embed);
             message.channel.send({files: [emoji.image]});
-        } catch (error) {
-            const embed = new Discord.RichEmbed()
-            .setColor(0x7289DA)
-            .setTitle('<:mdError:568466408250408970> Error')
-            .setDescription(`\`${error}\``)
-            .setFooter(new Date().toISOString());
-            message.channel.send(embed);
-            console.error(error);
+        } catch (err) {
+            return tools.errorMessage(message, err);
         }
 	},
 };

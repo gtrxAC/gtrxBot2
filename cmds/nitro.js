@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const tools = require('../tools');
 
 module.exports = {
 	name: 'nitro',
@@ -29,21 +30,11 @@ module.exports = {
                 };
             });
             target.send(output).catch((error) => {
-                const embed = new Discord.RichEmbed()
-                .setColor(0x7289DA)
-                .setTitle('<:mdError:568466408250408970> Error')
-                .setDescription(`\`${error}\nThis may be because no valid emoji were specified.\``)
-                .setFooter(new Date().toISOString());
-                message.channel.send(embed);
+                return tools.errorMessage(message, error);
             });
             if (target instanceof Discord.Webhook) target.delete();
-        } catch (error) {
-            const embed = new Discord.RichEmbed()
-            .setColor(0x7289DA)
-            .setTitle('<:mdError:568466408250408970> Error')
-            .setDescription(`\`${error}\``)
-            .setFooter(new Date().toISOString());
-            message.channel.send(embed);
+        } catch (err) {
+            return tools.errorMessage(message, err);
         }
 	},
 };

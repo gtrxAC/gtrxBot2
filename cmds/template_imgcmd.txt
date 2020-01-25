@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Canvas = require('canvas');
+const tools = require('../tools');
 
 module.exports = {
 	name: '',
@@ -20,19 +21,14 @@ module.exports = {
             if (message.mentions.users.size) link = message.mentions.users.first().avatarURL;
             if (message.attachments.size) link = message.attachments.first().url;
 
-            const canvas = Canvas.createCanvas(1000, 1140);
+            const canvas = Canvas.createCanvas(WIDTH, HEIGHT);
             const ctx = canvas.getContext('2d');
             
             //code here
 
             message.channel.send({files: [canvas.toBuffer()]});
-        } catch (error) {
-            const embed = new Discord.RichEmbed()
-            .setColor(0x7289DA)
-            .setTitle('<:mdError:568466408250408970> Error')
-            .setDescription(`\`${error}\``)
-            .setFooter(new Date().toISOString());
-            message.channel.send(embed);
+        } catch (err) {
+            return tools.errorMessage(message, err);
         }
 	},
 };

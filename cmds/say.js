@@ -1,3 +1,5 @@
+const tools = require('../tools');
+
 module.exports = {
 	name: 'say',
     aliases: ['echo', 's', 'ec'],
@@ -12,13 +14,8 @@ module.exports = {
             const content = args.join(' ')
             .replace(/(@everyone|@here)/gm, ' `[Mention Removed]` ');
             message.channel.send(content);
-        } catch (error) {
-            const embed = new Discord.RichEmbed()
-            .setColor(0x7289DA)
-            .setTitle('<:mdError:568466408250408970> Error')
-            .setDescription(`\`Couldn't reload command\n${error}\``)
-            .setFooter(new Date().toISOString());
-            message.channel.send(embed);
+        } catch (err) {
+            return tools.errorMessage(message, err);
         }
 	},
 };

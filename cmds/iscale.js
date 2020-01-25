@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Canvas = require('canvas');
+const tools = require('../tools');
 
 module.exports = {
 	name: 'iscale',
@@ -32,14 +33,8 @@ module.exports = {
             const image = await Canvas.loadImage(link);
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
             message.channel.send({files: [canvas.toBuffer()]});
-        } catch (error) {
-            const embed = new Discord.RichEmbed()
-            .setColor(0x7289DA)
-            .setTitle('<:mdError:568466408250408970> Error')
-            .setDescription(`\`${error}\``)
-            .setFooter(new Date().toISOString());
-            message.channel.send(embed);
-            console.log(error);
+        } catch (err) {
+            return tools.errorMessage(message, err);
         }
 	},
 };

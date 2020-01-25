@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const tools = require('../tools');
 
 module.exports = {
 	name: 'invite',
@@ -20,13 +21,8 @@ module.exports = {
             `[Join icon emotes server](https://discord.gg/TVQdyea)`)
             .setFooter(new Date().toISOString());
             message.channel.send(embed);
-        } catch (error) {
-            const embed = new Discord.RichEmbed()
-            .setColor(0x7289DA)
-            .setTitle('<:mdError:568466408250408970> Error')
-            .setDescription(`\`${error}\``)
-            .setFooter(new Date().toISOString());
-            message.channel.send(embed);
+        } catch (err) {
+            return tools.errorMessage(message, err);
         }
 	},
 };

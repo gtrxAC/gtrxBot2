@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const tools = require('../tools');
 
 module.exports = {
 	name: 'kill',
@@ -24,18 +25,10 @@ module.exports = {
                 `${target} got wooooshed.`
             ]
             const killMsg = messages[Math.floor(Math.random() * messages.length)];
-            const embed = new Discord.RichEmbed()
-            .setColor(0x7289DA)
-            .setDescription(`${killMsg}`)
-            .setFooter(new Date().toISOString());
+            const embed = tools.makeEmbed(null, killMsg);
             message.channel.send(embed);
-        } catch (error) {
-            const embed = new Discord.RichEmbed()
-            .setColor(0x7289DA)
-            .setTitle('<:mdError:568466408250408970> Error')
-            .setDescription(`\`${error}\``)
-            .setFooter(new Date().toISOString());
-            message.channel.send(embed);
+        } catch (err) {
+            return tools.errorMessage(message, err);
         }
 	},
 };

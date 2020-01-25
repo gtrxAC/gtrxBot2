@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Canvas = require('canvas');
+const tools = require('../tools');
 
 module.exports = {
 	name: 'ibeautiful',
@@ -30,13 +31,8 @@ module.exports = {
             ctx.drawImage(image, 26, 117, 438, 576);
 
             message.channel.send({files: [canvas.toBuffer()]});
-        } catch (error) {
-            const embed = new Discord.RichEmbed()
-            .setColor(0x7289DA)
-            .setTitle('<:mdError:568466408250408970> Error')
-            .setDescription(`\`${error}\``)
-            .setFooter(new Date().toISOString());
-            message.channel.send(embed);
+        } catch (err) {
+            return tools.errorMessage(message, err);
         }
 	},
 };

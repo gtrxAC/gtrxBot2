@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const tools = require('../tools');
 
 module.exports = {
 	name: 'addemoji',
@@ -22,26 +23,13 @@ module.exports = {
             if (args.length == 2 && !message.mentions.users.size) link = args[0];
 
             message.guild.createEmoji(link, name).then((emoji) => {
-                const embed = new Discord.RichEmbed()
-                .setColor(0x7289DA)
-                .setTitle('<:mdCheck:568466407616938004> Added emoji!')
-                .setFooter(new Date().toISOString());
+                const embed = tools.makeEmbed('<:mdCheck:568466407616938004> Added emoji!', null);
                 message.channel.send(embed);
             }).catch((error) => {
-                const embed = new Discord.RichEmbed()
-                .setColor(0x7289DA)
-                .setTitle('<:mdError:568466408250408970> Error')
-                .setDescription(`\`${error}\``)
-                .setFooter(new Date().toISOString());
-                message.channel.send(embed);
+                return tools.errorMessage(message, err);
             });
-        } catch (error) {
-            const embed = new Discord.RichEmbed()
-            .setColor(0x7289DA)
-            .setTitle('<:mdError:568466408250408970> Error')
-            .setDescription(`\`${error}\``)
-            .setFooter(new Date().toISOString());
-            message.channel.send(embed);
+        } catch (err) {
+            return tools.errorMessage(message, err);
         }
 	},
 };

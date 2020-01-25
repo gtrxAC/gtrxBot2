@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const tools = require('../tools');
 
 module.exports = {
 	name: 'reload',
@@ -15,12 +16,7 @@ module.exports = {
                 || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
             if (!command) {
-                const embed = new Discord.RichEmbed()
-                .setColor(0x7289DA)
-                .setTitle('<:mdError:568466408250408970> Error')
-                .setDescription(`\`Command not found\``)
-                .setFooter(new Date().toISOString());
-                return message.channel.send(embed);
+                throw 'command not found';
             }
             delete require.cache[require.resolve(`./${commandName}.js`)];
             const newCommand = require(`./${commandName}.js`);
@@ -31,13 +27,8 @@ module.exports = {
             .setDescription(`\`Reloaded command ${newCommand.name}\``)
             .setFooter(new Date().toISOString());
             message.channel.send(embed);
-        } catch (error) {
-            const embed = new Discord.RichEmbed()
-            .setColor(0x7289DA)
-            .setTitle('<:mdError:568466408250408970> Error')
-            .setDescription(`\`Couldn't reload command\n${error}\``)
-            .setFooter(new Date().toISOString());
-            message.channel.send(embed);
+        } catch (err) {
+            return tools.errorMessage(message, err);
         }
         
 	},

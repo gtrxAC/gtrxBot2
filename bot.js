@@ -1,6 +1,7 @@
 //load required modules
 const fs = require("fs");
 const Discord = require('discord.js');
+const tools = require('./tools');
 
 //create a client, the bot itself
 const client = new Discord.Client();
@@ -52,32 +53,17 @@ client.on('message', (message) => {
 
     //if command requires arguments and none are given, exit
     if (command.args && !args.length) {
-        const embed = new Discord.RichEmbed()
-        .setColor(0x7289DA)
-        .setTitle('<:mdError:568466408250408970> Error')
-        .setDescription(`\`This command requires arguments!\n${command.name} ${command.usage}\``)
-        .setFooter(new Date().toISOString());
-        return message.channel.send(embed);
+        return tools.errorMessage(message, `\`\`this command requires arguments\nusage: ${command.usage}\`\``);
     }
 
     //if command is server only and used in DM, exit
     if (command.guildOnly && message.channel.type !== 'text') {
-        const embed = new Discord.RichEmbed()
-        .setColor(0x7289DA)
-        .setTitle('<:mdError:568466408250408970> Error')
-        .setDescription(`\`This command is set to server only.\``)
-        .setFooter(new Date().toISOString());
-        return message.channel.send(embed);
+        return tools.errorMessage(message, 'this command is set to server only')
     }
 
     //if command is owner only and used by non-owner, exit
     if (command.ownerOnly && message.author.id !== config.owner) {
-        const embed = new Discord.RichEmbed()
-        .setColor(0x7289DA)
-        .setTitle('<:mdError:568466408250408970> Error')
-        .setDescription(`\`This command is set to owner only.\``)
-        .setFooter(new Date().toISOString());
-        return message.channel.send(embed);
+        return tools.errorMessage(message, 'this command is set to bot owner only');
     }
 
     //if command is on cooldown for that user, exit
@@ -91,29 +77,14 @@ client.on('message', (message) => {
         const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
         if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
-            const embed = new Discord.RichEmbed()
-            .setColor(0x7289DA)
-            .setTitle('<:mdError:568466408250408970> Error')
-            .setDescription(`\`This command is in cooldown for ${timeLeft.toFixed(4)} seconds.\``)
-            .setFooter(new Date().toISOString());
-            return message.channel.send(embed);
+            return tools.errorMessage(message, `this command is in cooldown for ${timeLeft.toFixed(4)} sec`);
         }
     }
     
     //execute command and add the cooldown timer
-    try {
-        command.execute(message, args);
-        timestamps.set(message.author.id, now);
-        setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-    } catch (error) {
-        const embed = new Discord.RichEmbed()
-        .setColor(0x7289DA)
-        .setTitle('<:mdError:568466408250408970> Error')
-        .setDescription(`\`${error}\``)
-        .setFooter(new Date().toISOString());
-        message.channel.send(embed);
-        console.error(error);
-    }
+    command.execute(message, args);
+    timestamps.set(message.author.id, now);
+    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 });
 
 //add deleted messages to the list so the snipe command can load them
