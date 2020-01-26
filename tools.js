@@ -21,7 +21,9 @@ module.exports = {
     // desc: the embed description
     // footer: the bottom text of the embed, leave blank for the current date/time
     makeEmbed(title, desc, footer) {
-        if (footer === undefined) footer = new Date().toISOString();
+        if (title == null || title == undefined) title == 'srfdhjgshdkjgbfhjsdgfjh';
+        if (desc == null || desc == undefined) desc == '';
+        if (footer == null || footer == undefined) footer = new Date().toISOString();
         const embed = new Discord.RichEmbed()
         .setColor(0x7289DA)
         .setTitle(title)

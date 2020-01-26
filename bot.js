@@ -77,7 +77,7 @@ client.on('message', (message) => {
         const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
         if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
-            return tools.errorMessage(message, `this command is in cooldown for ${timeLeft.toFixed(4)} sec`);
+            return tools.errorMessage(message, `this command is in cooldown for ${timeLeft.toFixed(3)} sec`);
         }
     }
     

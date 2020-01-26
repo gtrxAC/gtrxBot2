@@ -23,7 +23,7 @@ module.exports = {
             if (args.length == 2 && !message.mentions.users.size) link = args[0];
 
             message.guild.createEmoji(link, name).then((emoji) => {
-                const embed = tools.makeEmbed('<:mdCheck:568466407616938004> Added emoji!', null);
+                const embed = tools.makeEmbed('<:mdCheck:568466407616938004> Added emoji!', `added the emoji ${args[args.length-1]}`);
                 message.channel.send(embed);
             }).catch((error) => {
                 return tools.errorMessage(message, err);
