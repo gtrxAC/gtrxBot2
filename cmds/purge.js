@@ -21,7 +21,7 @@ module.exports = {
                     return tools.errorMessage(message, err);
                 });
             } else {
-                throw 'you don\'t have the manage messages permission';
+                throw "you don't have the manage messages permission";
             }
         } catch (err) {
             return tools.errorMessage(message, err);

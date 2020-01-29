@@ -5,7 +5,7 @@ const tools = require('../tools');
 module.exports = {
 	name: 'iinside',
     aliases: ['ii'],
-	description: 'Memegen: I\'m sick of crying, tired of trying, yeah I\'m smiling but inside I\'m...',
+	description: "Memegen: I'm sick of crying, tired of trying, yeah I'm smiling but inside I'm...",
     usage: '[image attachment/url/@user] <text ...>',
     args: true,
     guildOnly: false,

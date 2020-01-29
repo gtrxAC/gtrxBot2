@@ -7,7 +7,7 @@ module.exports = {
 	description: 'Sends a message as a look-alike of another user.',
     usage: '<@user> <message ...>',
     args: true,
-    guildOnly: false,
+    guildOnly: true,
     ownerOnly: false,
     cooldown: 6,
 	async execute(message, args) {
