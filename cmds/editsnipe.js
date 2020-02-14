@@ -1,9 +1,9 @@
 const tools = require('../tools');
 
 module.exports = {
-	name: 'snipe',
-    aliases: ['sn'],
-	description: 'Reveals the last deleted message.',
+	name: 'editsnipe',
+    aliases: ['editsn', 'esn'],
+	description: 'Reveals the history of an edited message.',
     usage: '[#channel]',
 	async execute(message, args) {
         try {
@@ -13,15 +13,17 @@ module.exports = {
                 channel = message.mentions.channels.first();
             } else {
                 channel = message.channel;
-            }
+            };
 
             //find an edited message, send an error if none were found
-            const delMsg = message.client.lastDel.get(channel.id);
-            if (delMsg === undefined) throw 'no message found';
+            const editedMsg = message.client.lastEdits.get(channel.id);
+            if (editedMsg === undefined) throw 'no message found';
 
-            //send an embed with the message content
-            const embed = tools.makeEmbed(`${delMsg.author} said:`, delMsg.content);
-            if (delMsg.attachments.size) embed.addField('Attachment', delMsg.attachments.first().url);
+            //create an embed with the message content
+            const embed = tools.makeEmbed(`${editedMsg.author} said:`)
+            .setDescription('')
+            .addField('Old Message', `\`${editedMsg.oldContent}\``)
+            .addField('New Message', `\`${editedMsg.newContent}\``);
             message.channel.send(embed);
         } catch (err) {
             return tools.errorMessage(message, err);

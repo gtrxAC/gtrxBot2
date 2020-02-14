@@ -7,13 +7,18 @@ module.exports = {
 	description: 'Sends an embed with a title, desc, footer and color.',
     usage: "<title>|[description]|[footer]|[color]",
     args: true,
-    guildOnly: false,
-    ownerOnly: false,
 	async execute(message, args) {
         try {
+            //delete the command message, most people would do that
             message.delete();
+
+            //separate args by |, not space
             const input = args.join(' ').split('|');
-            if (input.length > 4) throw "too many arguments (max 4)"
+
+            //max 4 arguments
+            if (input.length > 4) throw 'too many arguments (max 4)'
+
+            //create the embed and send it
             const embed = new Discord.RichEmbed()
             .setTitle(input[0])
             if (input.length > 1) embed.setDescription(input[1]);

@@ -6,12 +6,11 @@ module.exports = {
 	description: 'Sends the specified message.',
     usage: '<message ...>',
     args: true,
-    guildOnly: false,
-    ownerOnly: false,
 	async execute(message, args) {
         try {
             message.delete();
             const content = args.join(' ')
+            //remove pings, we don't want ping exploits
             .replace(/(@everyone|@here)/gm, ' `[Mention Removed]` ');
             message.channel.send(content);
         } catch (err) {

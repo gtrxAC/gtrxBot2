@@ -1,37 +1,36 @@
-const Discord = require('discord.js');
 const tools = require('../tools');
 
 module.exports = {
 	name: 'addemoji',
     aliases: ['a', 'addemote'],
-	description: 'Adds an emoji to this server',
+	description: 'Adds an emoji to this server.',
     usage: '[image attachment/url/@user] <name>',
     args: true,
     guildOnly: true,
-    ownerOnly: false,
+    requires: 'MANAGE_EMOJIS',
     cooldown: 6,
+    maxArgs: 2,
 	async execute(message, args) {
         try {
-            if (message.member.permissions.has('MANAGE_EMOJIS')) {
-                if (args.length > 2) throw "too many arguments (max 2)";
-                const name = args[args.length - 1];
-                let link = message.author.avatarURL;
-                const lastMsgs = await message.channel.fetchMessages(10);
-                const attachmentMsg = lastMsgs.find((msg) => msg.attachments.size);
-                if (attachmentMsg) link = attachmentMsg.attachments.first().url;
-                if (message.mentions.users.size) link = message.mentions.users.first().avatarURL;
-                if (message.attachments.size) link = message.attachments.first().url;
-                if (args.length == 2 && !message.mentions.users.size) link = args[0];
+            //last argument is the emoji's name
+            const name = args[args.length - 1];
 
-                message.guild.createEmoji(link, name).then((emoji) => {
-                    const embed = tools.makeEmbed('<:mdCheck:568466407616938004> Added emoji!', `added the emoji ${args[args.length-1]}`);
-                    message.channel.send(embed);
-                }).catch((error) => {
-                    return tools.errorMessage(message, err);
-                });
-            } else {
-                throw "you don't have the manage emojis permission";
-            }
+            //try to find an image from a link, attachment, mentioned user's avatar, last 10 messages, or your avatar
+            let link = message.author.avatarURL;
+            const lastMsgs = await message.channel.fetchMessages(10);
+            const attachmentMsg = lastMsgs.find((msg) => msg.attachments.size);
+            if (attachmentMsg) link = attachmentMsg.attachments.first().url;
+            if (message.mentions.users.size) link = message.mentions.users.first().avatarURL;
+            if (message.attachments.size) link = message.attachments.first().url;
+            if (args.length == 2 && !message.mentions.users.size) link = args[0];
+
+            //create the emoji, send output when done
+            message.guild.createEmoji(link, name).then((emoji) => {
+                const embed = tools.makeEmbed('<:mdCheck:568466407616938004> Added emoji!', `added the emoji ${args[args.length-1]}`);
+                message.channel.send(embed);
+            }).catch((error) => {
+                return tools.errorMessage(message, err);
+            });
         } catch (err) {
             return tools.errorMessage(message, err);
         }

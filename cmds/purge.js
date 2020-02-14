@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const tools = require('../tools');
 
 module.exports = {
@@ -8,21 +7,20 @@ module.exports = {
     usage: '<num of msgs>',
     args: true,
     guildOnly: true,
-    ownerOnly: false,
+    requires: 'MANAGE_MESSAGES',
 	async execute(message, args) {
         try {
-            if (message.member.permissions.has('MANAGE_MESSAGES')) {
-                message.channel.bulkDelete(Number(args[0])+1).then((msgs) => {
-                    const embed = tools.makeEmbed('<:mdCheck:568466407616938004> Success', `deleted ${args[0]} messages`)
-                    message.channel.send(embed).then((msg) => {
-                        msg.delete(3000);
-                    });
-                }).catch((err) => {
-                    return tools.errorMessage(message, err);
+            //delete the messages, +1 to include the command message
+            message.channel.bulkDelete(Number(args[0])+1).then((msgs) => {
+
+                //send a confirmation and delete it after 3 seconds
+                const embed = tools.makeEmbed('<:mdCheck:568466407616938004> Success', `deleted ${args[0]} messages`)
+                message.channel.send(embed).then((msg) => {
+                    msg.delete(3000);
                 });
-            } else {
-                throw "you don't have the manage messages permission";
-            }
+            }).catch((err) => {
+                return tools.errorMessage(message, err);
+            });
         } catch (err) {
             return tools.errorMessage(message, err);
         }

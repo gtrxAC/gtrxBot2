@@ -1,5 +1,5 @@
 //load required modules
-const fs = require("fs");
+const fs = require('fs');
 const Discord = require('discord.js');
 const tools = require('./tools');
 
@@ -19,23 +19,17 @@ for (const file of commandFiles) {
 const lastDel = new Discord.Collection();
 client.lastDel = lastDel;
 
+//and edited messages for the editsnipe command
+const lastEdits = new Discord.Collection();
+client.lastEdits = lastEdits;
+
 //load configuration from config.json - this has the bot token, prefix and owner ID
 const config = require('./config.json');
 client.config = config;
 
-//log the ready message
-client.on('ready', () => {
-    console.log('________________________________________________________________________________');
-    console.log('');
-    console.log(`${client.user.username} is ready.`);
-    console.log(`* ID: ${client.user.id}`);
-    console.log(`* Guilds/Users: ${client.guilds.size}/${client.users.size}`);
-    console.log('________________________________________________________________________________');
-    console.log('');
-});
 
 //basic command handler. https://discordjs.guide/command-handling/
-client.on('message', (message) => {
+const handleCommand = (message) => {
     //ignore non command messages and bot messages to prevent loops
     if (!message.content.startsWith(config.prefix)) return;
     if (message.author.bot) return;
@@ -48,23 +42,15 @@ client.on('message', (message) => {
     const command = client.commands.get(commandName)
         || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     
-    //if not found, exit
+    //if the command isn't found or its requirements aren't met, exit
     if (!command) return;
-
-    //if command requires arguments and none are given, exit
-    if (command.args && !args.length) {
-        return tools.errorMessage(message, `\`\`this command requires arguments\nusage: ${command.usage}\`\``);
-    }
-
-    //if command is server only and used in DM, exit
-    if (command.guildOnly && message.channel.type !== 'text') {
-        return tools.errorMessage(message, 'this command is set to server only')
-    }
-
-    //if command is owner only and used by non-owner, exit
-    if (command.ownerOnly && message.author.id !== config.owner) {
-        return tools.errorMessage(message, 'this command is set to bot owner only');
-    }
+    if (command.args && !args.length) return tools.errorMessage(message, `\`\`this command requires arguments\nusage: ${command.usage}\`\``);
+    if (command.guildOnly && message.channel.type !== 'text') return tools.errorMessage(message, 'this command is set to server only');
+    if (command.nsfw && !message.channel.nsfw) return tools.errorMessage(message, 'this command is set to nsfw channel only');
+    if (command.ownerOnly && message.author.id !== config.owner) return tools.errorMessage(message, 'this command is set to bot owner only');
+    if (command.requires && !message.member.permissions.has(command.requires)) return tools.errorMessage(message, `this command requires the ${command.requires} permission`);
+    if (command.minArgs && args.length < command.minArgs) return tools.errorMessage(message, `too few arguments, min ${command.minArgs}`);
+    if (command.maxArgs && args.length > command.maxArgs) return tools.errorMessage(message, `too many arguments, max ${command.maxArgs}`);
 
     //if command is on cooldown for that user, exit
     if (!cooldowns.has(command.name)) {
@@ -76,8 +62,8 @@ client.on('message', (message) => {
     if (timestamps.has(message.author.id)) {
         const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
         if (now < expirationTime) {
-            const timeLeft = (expirationTime - now) / 1000;
-            return tools.errorMessage(message, `this command is in cooldown for ${timeLeft.toFixed(3)} sec`);
+            const timeLeft = expirationTime - now;
+            return tools.errorMessage(message, `this command is in cooldown for ${timeLeft} ms`);
         }
     }
     
@@ -85,11 +71,32 @@ client.on('message', (message) => {
     command.execute(message, args);
     timestamps.set(message.author.id, now);
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+}
+
+
+//log the ready message
+client.on('ready', () => {
+    console.log('');
+    console.log(`${client.user.username} is ready.`);
+    console.log(`* ID: ${client.user.id}`);
+    console.log(`* Guilds/Users: ${client.guilds.size}/${client.users.size}`);
+    console.log('');
+});
+
+//handle a possible command when a message is received
+client.on('message', (message) => {
+    handleCommand(message);
 });
 
 //add deleted messages to the list so the snipe command can load them
 client.on('messageDelete', (message) => {
-    client.lastDel.set(message.channel.id, {author: message.author.tag, content: message.content});
+    client.lastDel.set(message.channel.id, {author: message.author.tag, content: message.content, attachments: message.attachments});
+});
+
+//add edited messages to the list for the editsnipe command, and try to handle a command
+client.on('messageUpdate', (oldMsg, newMsg) => {
+    client.lastEdits.set(oldMsg.channel.id, {author: oldMsg.author.tag, oldContent: oldMsg.content, newContent: newMsg.content});
+    handleCommand(newMsg);
 });
 
 //log in to Discord with the bot token in config.json

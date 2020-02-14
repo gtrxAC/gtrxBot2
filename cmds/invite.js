@@ -6,9 +6,6 @@ module.exports = {
     aliases: ['in', 'support', 'su'],
 	description: 'Invite gtrxBot² to your server.',
     usage: '',
-    args: false,
-    guildOnly: false,
-    ownerOnly: false,
 	async execute(message, args) {
         try {
             const embed = new Discord.RichEmbed()

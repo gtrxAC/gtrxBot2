@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const Canvas = require('canvas');
 const tools = require('../tools');
 
@@ -8,13 +7,12 @@ module.exports = {
 	description: 'Resizes an image to the given pixel size.',
     usage: '[image attachment/url/@user] <width> <height>',
     args: true,
-    guildOnly: false,
-    ownerOnly: false,
-    cooldown: 5,
+    cooldown: 4,
+    minArgs: 2,
+    maxArgs: 3,
 	async execute(message, args) {
         try {
-            if (args.length > 3) throw "too many arguments (max 3)";
-            if (args.length < 2) throw "too few arguments (min 2)";
+            //try to find an image from a link, attachment, mentioned user's avatar, last 10 messages, or your avatar
             let link = message.author.avatarURL;
             const lastMsgs = await message.channel.fetchMessages(10);
             const attachmentMsg = lastMsgs.find((msg) => msg.attachments.size);
@@ -24,14 +22,19 @@ module.exports = {
             if (message.mentions.users.size) link = message.mentions.users.first().avatarURL;
             if (message.attachments.size) link = message.attachments.first().url;
 
+            //get the size as numbers, not strings
             const x = Number(args[0]);
             const y = Number(args[1]);
 
+            //create a new image
             const canvas = Canvas.createCanvas(x, y);
             const ctx = canvas.getContext('2d');
 
+            //draw the input image on it
             const image = await Canvas.loadImage(link);
             ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+            //send it
             message.channel.send({files: [canvas.toBuffer()]});
         } catch (err) {
             return tools.errorMessage(message, err);

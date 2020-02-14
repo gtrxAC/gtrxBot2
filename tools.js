@@ -6,13 +6,14 @@ module.exports = {
 
     // message: the command message that created the error
     // err: the error message
-    errorMessage(message, err) {
+    async errorMessage(message, err) {
         const embed = new Discord.RichEmbed()
         .setColor(0x7289DA)
         .setTitle('<:mdError:568466408250408970> Error')
         .setDescription(`\`${err}\``)
         .setFooter(new Date().toISOString());
-        return message.channel.send(embed);
+        const outMsg = await message.channel.send(embed);
+        outMsg.delete(10000);
     },
 
     // Creates an embed template (doesn't send it).
@@ -21,7 +22,7 @@ module.exports = {
     // desc: the embed description
     // footer: the bottom text of the embed, leave blank for the current date/time
     makeEmbed(title, desc, footer) {
-        if (title == null || title == undefined) title == 'srfdhjgshdkjgbfhjsdgfjh';
+        if (title == null || title == undefined) title == '';
         if (desc == null || desc == undefined) desc == '';
         if (footer == null || footer == undefined) footer = new Date().toISOString();
         const embed = new Discord.RichEmbed()

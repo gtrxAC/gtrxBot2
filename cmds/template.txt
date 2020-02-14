@@ -6,9 +6,14 @@ module.exports = {
     aliases: [],
 	description: '',
     usage: '',
+    nsfw: false,
     args: false,
     guildOnly: false,
     ownerOnly: false,
+    requires: '',
+    cooldown: X,
+    minArgs: X,
+    maxArgs: X,
 	async execute(message, args) {
         try {
 

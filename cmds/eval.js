@@ -1,13 +1,11 @@
-const Discord = require('discord.js');
 const tools = require('../tools');
 
 module.exports = {
 	name: 'eval',
     aliases: ['ev'],
-	description: 'Run JavaScript code',
+	description: 'Run JavaScript code. (bot owner only)',
     usage: '<code ...>',
     args: true,
-    guildOnly: false,
     ownerOnly: true,
 	async execute(message, args) {
         try {
