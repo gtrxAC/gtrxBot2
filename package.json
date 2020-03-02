@@ -5,7 +5,7 @@
   "main": "bot.js",
   "dependencies": {
     "canvas": "^2.6.1",
-    "discord.js": "^11.5.1",
+    "discord.js": "github:discordjs/discord.js",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {},
@@ -26,5 +26,5 @@
   "bugs": {
     "url": "https://github.com/gtrxAC/gtrxBot2/issues"
   },
-  "homepage": "https://github.com/gtrxAC/gtrxBot2#readme"
+  "homepage": "https://github.com/gtrxAC/gtrxBot2"
 }

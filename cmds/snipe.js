@@ -2,8 +2,7 @@ const tools = require('../tools');
 
 module.exports = {
 	name: 'snipe',
-    aliases: ['sn'],
-	description: 'Reveals the last deleted message.',
+	description: 'Reveals the last deleted message',
     usage: '[#channel]',
 	async execute(message, args) {
         try {
@@ -22,7 +21,7 @@ module.exports = {
             //send an embed with the message content
             const embed = tools.makeEmbed(`${delMsg.author} said:`, delMsg.content);
             if (delMsg.attachments.size) embed.addField('Attachment', delMsg.attachments.first().url);
-            message.channel.send(embed);
+            tools.sendEmbed(message.channel, embed);
         } catch (err) {
             return tools.errorMessage(message, err);
         }

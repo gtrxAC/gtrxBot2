@@ -2,8 +2,7 @@ const tools = require('../tools');
 
 module.exports = {
 	name: 'kill',
-    aliases: ['k'],
-	description: 'Kills the specified user in a random way.',
+	description: 'Kills the specified user in a random way',
     usage: '[text or @user]',
 	async execute(message, args) {
         try {
@@ -32,7 +31,7 @@ module.exports = {
             //create an embed for the kill message
             const embed = tools.makeEmbed('', '')
             .setDescription(killMsg);
-            message.channel.send(embed);
+            tools.sendEmbed(message.channel, embed);
         } catch (err) {
             return tools.errorMessage(message, err);
         }

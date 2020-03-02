@@ -7,13 +7,14 @@ module.exports = {
     // message: the command message that created the error
     // err: the error message
     async errorMessage(message, err) {
-        const embed = new Discord.RichEmbed()
+        const embed = new Discord.MessageEmbed()
         .setColor(0x7289DA)
         .setTitle('<:mdError:568466408250408970> Error')
-        .setDescription(`\`${err}\``)
+        .setDescription(`${err}`)
         .setFooter(new Date().toISOString());
-        const outMsg = await message.channel.send(embed);
-        outMsg.delete(10000);
+        const outMsg = await this.sendEmbed(message.channel, embed);
+        outMsg.delete({timeout: 10000});
+        if(message.channel.type == 'text') message.delete({timeout: 10000});
     },
 
     // Creates an embed template (doesn't send it).
@@ -21,15 +22,27 @@ module.exports = {
     // title: the title for the embed, usually has an emoji at the start
     // desc: the embed description
     // footer: the bottom text of the embed, leave blank for the current date/time
-    makeEmbed(title, desc, footer) {
-        if (title == null || title == undefined) title == '';
-        if (desc == null || desc == undefined) desc == '';
-        if (footer == null || footer == undefined) footer = new Date().toISOString();
-        const embed = new Discord.RichEmbed()
+    // channel: channel to send to, returns embed if not defined
+    makeEmbed(title, desc, footer, channel) {
+        if (!title) title == '';
+        if (!desc) desc == '';
+        if (!footer) footer = new Date().toISOString();
+        const embed = new Discord.MessageEmbed()
         .setColor(0x7289DA)
         .setTitle(title)
-        .setDescription(`\`${desc}\``)
+        .setDescription(desc)
         .setFooter(footer);
-        return embed;
+        if(channel) {channel.send(embed)} else {return embed};
+    },
+
+    //Sends an embed message, or a normal text message if the bot doesn't have permissions.
+
+    //channel: the channel to send to
+    //embed: the embed to be sent
+    sendEmbed(channel, embed) {
+        return channel.send(embed).catch(e => {
+            channel.send(`>>> **${embed.title}**\n${embed.description}\n*${embed.footer ? embed.footer.text : ''}*\n**Warning**`+
+            `  For the best experience, please allow the embed links permission for me.`)
+        })
     }
 }

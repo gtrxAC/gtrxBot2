@@ -3,8 +3,7 @@ const tools = require('../tools');
 
 module.exports = {
 	name: 'embed',
-    aliases: ['emb'],
-	description: 'Sends an embed with a title, desc, footer and color.',
+	description: 'Sends an embed with a title, desc, footer and color',
     usage: "<title>|[description]|[footer]|[color]",
     args: true,
 	async execute(message, args) {
@@ -19,13 +18,13 @@ module.exports = {
             if (input.length > 4) throw 'too many arguments (max 4)'
 
             //create the embed and send it
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
             .setTitle(input[0])
             if (input.length > 1) embed.setDescription(input[1]);
             if (input.length > 2) embed.setFooter(input[2]);
             if (input.length > 3) embed.setColor(input[3]);
             else embed.setColor(0x7289DA);
-            message.channel.send(embed);
+            tools.sendEmbed(message.channel, embed);
         } catch (err) {
             return tools.errorMessage(message, err);
         }

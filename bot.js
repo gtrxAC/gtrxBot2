@@ -40,15 +40,16 @@ const handleCommand = (message) => {
 
     //find the command from the loaded command files
     const command = client.commands.get(commandName)
+        || client.commands.find(cmd => cmd.name.startsWith(commandName))
         || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
     
     //if the command isn't found or its requirements aren't met, exit
     if (!command) return;
-    if (command.args && !args.length) return tools.errorMessage(message, `\`\`this command requires arguments\nusage: ${command.usage}\`\``);
-    if (command.guildOnly && message.channel.type !== 'text') return tools.errorMessage(message, 'this command is set to server only');
-    if (command.nsfw && !message.channel.nsfw) return tools.errorMessage(message, 'this command is set to nsfw channel only');
     if (command.ownerOnly && message.author.id !== config.owner) return tools.errorMessage(message, 'this command is set to bot owner only');
+    if (command.guildOnly && message.channel.type !== 'text') return tools.errorMessage(message, 'this command is set to server only');
+    if (command.nsfw && message.channel.type == 'text' && !message.channel.nsfw) return tools.errorMessage(message, 'this command is set to nsfw channel only');
     if (command.requires && !message.member.permissions.has(command.requires)) return tools.errorMessage(message, `this command requires the ${command.requires} permission`);
+    if (command.args && !args.length) return tools.errorMessage(message, `this command requires arguments\nusage: \`${command.usage}\``);
     if (command.minArgs && args.length < command.minArgs) return tools.errorMessage(message, `too few arguments, min ${command.minArgs}`);
     if (command.maxArgs && args.length > command.maxArgs) return tools.errorMessage(message, `too many arguments, max ${command.maxArgs}`);
 
@@ -74,13 +75,14 @@ const handleCommand = (message) => {
 }
 
 
-//log the ready message
+//log the ready message and set status
 client.on('ready', () => {
     console.log('');
     console.log(`${client.user.username} is ready.`);
     console.log(`* ID: ${client.user.id}`);
-    console.log(`* Guilds/Users: ${client.guilds.size}/${client.users.size}`);
+    console.log(`* Guilds/Users: ${client.guilds.cache.size}/${client.users.cache.size}`);
     console.log('');
+    client.user.setActivity(`${config.prefix}help | ${client.users.cache.size} users`, {type: 'LISTENING'});
 });
 
 //handle a possible command when a message is received

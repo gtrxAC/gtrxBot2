@@ -4,8 +4,8 @@ const tools = require('../tools');
 
 module.exports = {
 	name: 'emoji',
-    aliases: ['emote', 'emo'],
-	description: 'Gets a random emoji from discordemoji.com. (nsfw)',
+    aliases: ['emote'],
+	description: 'Gets a random emoji from discordemoji.com (nsfw)',
     usage: '',
     nsfw: true,
     cooldown: 4,
@@ -20,11 +20,11 @@ module.exports = {
             //use the emoji category's name instead of just a number
             const categories = ['Unknown', 'Original Style', 'TV/Movie', 'Meme', 'Anime', 'Celebrity', 'Blobs',
             'Thinking', 'Animated', 'NSFW', 'Gaming', 'Letters', 'Other', 'Pepe', 'Logos', 'Cute', 'Utility',
-            'Animals', 'Recolors', 'Unknown', 'Unknown', 'Unknown', 'Unknown'];
+            'Animals', 'Recolors'];
             const category = categories[emoji.category];
 
             //create an embed with the emoji info, and send it along with the emoji itself
-            const embed = new Discord.RichEmbed()
+            const embed = new Discord.MessageEmbed()
             .setColor(0x7289DA)
             .setTitle(`<:mdEmoji:568466408535490571> Emoji ${emoji.title}`)
             .setDescription(`\`\`\`Name:     ${emoji.title}\n`+
@@ -32,7 +32,7 @@ module.exports = {
             `Category: ${category}\n`+
             `Faves:    ${emoji.faves}\`\`\``)
             .setFooter(`ID: ${emoji.id} | ${new Date().toISOString()}`);
-            await message.channel.send(embed);
+            await tools.sendEmbed(message.channel, embed);
             message.channel.send({files: [emoji.image]});
         } catch (err) {
             return tools.errorMessage(message, err);

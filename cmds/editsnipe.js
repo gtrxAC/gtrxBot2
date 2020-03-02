@@ -2,8 +2,7 @@ const tools = require('../tools');
 
 module.exports = {
 	name: 'editsnipe',
-    aliases: ['editsn', 'esn'],
-	description: 'Reveals the history of an edited message.',
+	description: 'Reveals the history of an edited message',
     usage: '[#channel]',
 	async execute(message, args) {
         try {
@@ -21,10 +20,9 @@ module.exports = {
 
             //create an embed with the message content
             const embed = tools.makeEmbed(`${editedMsg.author} said:`)
-            .setDescription('')
-            .addField('Old Message', `\`${editedMsg.oldContent}\``)
-            .addField('New Message', `\`${editedMsg.newContent}\``);
-            message.channel.send(embed);
+            .addField('Old Message', editedMsg.oldContent)
+            .addField('New Message', editedMsg.newContent);
+            tools.sendEmbed(message.channel, embed);
         } catch (err) {
             return tools.errorMessage(message, err);
         }

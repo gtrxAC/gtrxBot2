@@ -2,8 +2,7 @@ const tools = require('../tools');
 
 module.exports = {
 	name: 'reload',
-    aliases: ['r'],
-	description: "Reloads a command after it's been edited.",
+	description: "Reloads a command after it's been edited",
     usage: '<command>',
     args: true,
     ownerOnly: true,
@@ -25,7 +24,7 @@ module.exports = {
             //send a confirmation message
             const embed = tools.makeEmbed('<:mdCheck:568466407616938004> Success',
             `Reloaded command ${newCommand.name}`);
-            message.channel.send(embed);
+            tools.sendEmbed(message.channel, embed);
         } catch (err) {
             return tools.errorMessage(message, err);
         }

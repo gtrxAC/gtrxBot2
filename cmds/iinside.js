@@ -3,7 +3,6 @@ const tools = require('../tools');
 
 module.exports = {
 	name: 'iinside',
-    aliases: ['ii'],
 	description: "Memegen: Sick of crying, tired of trying, yeah I'm smiling but inside I'm...",
     usage: '[image attachment/url/@user] <text ...>',
     args: true,
@@ -11,13 +10,13 @@ module.exports = {
 	async execute(message, args) {
         try {
             //try to find an image from a link, attachment, mentioned user's avatar, last 10 messages, or your avatar
-            let link = message.author.avatarURL;
-            const lastMsgs = await message.channel.fetchMessages(10);
+            let link = message.author.avatarURL();
+            const lastMsgs = await message.channel.messages.fetch(10);
             const attachmentMsg = lastMsgs.find((msg) => msg.attachments.size);
             if (args.length && !attachmentMsg && !message.mentions.users.size &&
                 !message.attachments.size) link = args.shift();
             if (attachmentMsg) link = attachmentMsg.attachments.first().url;
-            if (message.mentions.users.size) link = message.mentions.users.first().avatarURL;
+            if (message.mentions.users.size) link = message.mentions.users.first().avatarURL();
             if (message.attachments.size) link = message.attachments.first().url;
 
             //create a new image

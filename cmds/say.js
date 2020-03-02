@@ -2,15 +2,16 @@ const tools = require('../tools');
 
 module.exports = {
 	name: 'say',
-    aliases: ['echo', 's', 'ec'],
-	description: 'Sends the specified message.',
+    aliases: ['echo'],
+	description: 'Sends the specified message',
     usage: '<message ...>',
     args: true,
 	async execute(message, args) {
         try {
             message.delete();
             const content = args.join(' ')
-            //remove pings, we don't want ping exploits
+
+            //remove pings, we don't want people to ping everyone through the bot
             .replace(/(@everyone|@here)/gm, ' `[Mention Removed]` ');
             message.channel.send(content);
         } catch (err) {
