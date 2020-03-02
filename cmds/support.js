@@ -12,7 +12,7 @@ module.exports = {
             .setColor(0x7289DA)
             .setTitle('<:mdExternal:568466408212529153> Links')
             .setDescription(
-            `[Add me to your server](https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=8&scope=bot)\n`+
+            `[Add me to your server](https://discordapp.com/api/oauth2/authorize?client_id=${message.client.user.id}&permissions=8&scope=bot)\n`+
             `[Join the meme cave™](https://discord.gg/vRzh7wr)\n`+
             `[Join development server](https://discord.gg/bRTPbpg)\n`+
             `[Join icon emotes server](https://discord.gg/TVQdyea)`)
