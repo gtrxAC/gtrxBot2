@@ -1,10 +1,10 @@
 const tools = require('../tools');
 
 module.exports = {
-	name: 'snipe',
-	description: 'Reveals the last deleted message',
+    name: 'snipe',
+    description: 'Reveals the last deleted message',
     usage: '[#channel]',
-	async execute(message, args) {
+    async execute(message, args) {
         try {
             //use a mentioned channel, or the current one if none were mentioned
             let channel;
@@ -25,5 +25,5 @@ module.exports = {
         } catch (err) {
             return tools.errorMessage(message, err);
         }
-	},
+    },
 };

@@ -2,11 +2,12 @@ const Discord = require('discord.js');
 const tools = require('../tools');
 
 module.exports = {
-	name: '',
+    name: '',
     aliases: [],
-	description: '',
+    description: '',
     usage: '',
     nsfw: false,
+    image: false,
     args: false,
     guildOnly: false,
     ownerOnly: false,
@@ -14,11 +15,11 @@ module.exports = {
     cooldown: X,
     minArgs: X,
     maxArgs: X,
-	async execute(message, args) {
+    async execute(message, args) {
         try {
 
         } catch (err) {
             return tools.errorMessage(message, err);
         }
-	},
+    },
 };

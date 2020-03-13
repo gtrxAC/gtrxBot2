@@ -3,13 +3,13 @@ const fetch = require('node-fetch');
 const tools = require('../tools');
 
 module.exports = {
-	name: 'emoji',
+    name: 'emoji',
     aliases: ['emote'],
-	description: 'Gets a random emoji from discordemoji.com (nsfw)',
+    description: 'Gets a random emoji from discordemoji.com',
     usage: '',
     nsfw: true,
     cooldown: 4,
-	async execute(message, args) {
+    async execute(message, args) {
         try {
             //get all emoji from discordemoji's api
             const response = await fetch('https://discordemoji.com/api').then(r => r.json());
@@ -37,5 +37,5 @@ module.exports = {
         } catch (err) {
             return tools.errorMessage(message, err);
         }
-	},
+    },
 };

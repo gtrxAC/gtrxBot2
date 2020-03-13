@@ -24,8 +24,8 @@ module.exports = {
     // footer: the bottom text of the embed, leave blank for the current date/time
     // channel: channel to send to, returns embed if not defined
     makeEmbed(title, desc, footer, channel) {
-        if (!title) title == '';
-        if (!desc) desc == '';
+        if (!title) title = '';
+        if (!desc) desc = '';
         if (!footer) footer = new Date().toISOString();
         const embed = new Discord.MessageEmbed()
         .setColor(0x7289DA)
@@ -42,7 +42,7 @@ module.exports = {
     sendEmbed(channel, embed) {
         return channel.send(embed).catch(e => {
             channel.send(`>>> **${embed.title}**\n${embed.description}\n*${embed.footer ? embed.footer.text : ''}*\n**Warning**`+
-            `  For the best experience, please allow the embed links permission for me.`)
+            `  For the best experience, make sure I can send embed links.`)
         })
     }
 }

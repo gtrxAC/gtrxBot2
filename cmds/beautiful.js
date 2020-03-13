@@ -2,20 +2,21 @@ const Canvas = require('canvas');
 const tools = require('../tools');
 
 module.exports = {
-	name: 'ibeautiful',
-	description: 'Memegen: You ever cry because of how beautiful something is?',
-    usage: '[image attachment/url/@user]',
+    name: 'beautiful',
+    description: 'Memegen: You ever cry because of how beautiful something is?',
+    usage: '[image]',
+    image: true,
     cooldown: 4,
-	async execute(message, args) {
+    async execute(message, args) {
         try {
             //try to find an image from a link, attachment, mentioned user's avatar, last 10 messages, or your avatar
-            let link = message.author.avatarURL();
+            let link = message.author.avatarURL({format: 'png'});
             const lastMsgs = await message.channel.messages.fetch(10);
             const attachmentMsg = lastMsgs.find((msg) => msg.attachments.size);
             if (args.length && !attachmentMsg && !message.mentions.users.size &&
                 !message.attachments.size) link = args.shift();
             if (attachmentMsg) link = attachmentMsg.attachments.first().url;
-            if (message.mentions.users.size) link = message.mentions.users.first().avatarURL();
+            if (message.mentions.users.size) link = message.mentions.users.first().avatarURL({format: 'png'});
             if (message.attachments.size) link = message.attachments.first().url;
 
             //create a new image
@@ -35,5 +36,5 @@ module.exports = {
         } catch (err) {
             return tools.errorMessage(message, err);
         }
-	},
+    },
 };

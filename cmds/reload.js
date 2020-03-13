@@ -1,12 +1,12 @@
 const tools = require('../tools');
 
 module.exports = {
-	name: 'reload',
-	description: "Reloads a command after it's been edited",
+    name: 'reload',
+    description: "Reloads a command after it's been edited",
     usage: '<command>',
     args: true,
     ownerOnly: true,
-	async execute(message, args) {
+    async execute(message, args) {
         try {
             //find the command, send an error if not found
             const commandName = args[0].toLowerCase();
@@ -29,5 +29,5 @@ module.exports = {
             return tools.errorMessage(message, err);
         }
         
-	},
+    },
 };

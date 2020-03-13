@@ -1,13 +1,13 @@
 const tools = require('../tools');
 
 module.exports = {
-	name: 'purge',
-	description: 'Removes many messages at once',
+    name: 'purge',
+    description: 'Removes many messages at once',
     usage: '<num of msgs>',
     args: true,
     guildOnly: true,
     requires: 'MANAGE_MESSAGES',
-	async execute(message, args) {
+    async execute(message, args) {
         try {
             //delete the messages, +1 to include the command message
             await message.channel.bulkDelete(Number(args[0])+1)
@@ -20,5 +20,5 @@ module.exports = {
         } catch (err) {
             return tools.errorMessage(message, err);
         }
-	},
+    },
 };

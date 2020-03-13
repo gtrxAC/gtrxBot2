@@ -2,19 +2,20 @@ const Discord = require('discord.js');
 const tools = require('../tools');
 
 module.exports = {
-	name: 'nitro',
-	description: 'Sends all the specified emoji',
+    name: 'sayemoji',
+    aliases: ['sayemote', 'nitro'],
+    description: 'Sends all the specified emoji',
     usage: '[-s] <emoji ...>\n\n-s: Send as a look-alike of your user',
     args: true,
     cooldown: 3,
-	async execute(message, args) {
+    async execute(message, args) {
         try {
             //if -s was added, create a webhook and send as that instead
             let target;
             if (args[0] === '-s') {
                 if (message.channel.type == 'text') {
                     args.shift();
-                    target = await message.channel.createWebhook(message.author.username, message.author.avatarURL());
+                    target = await message.channel.createWebhook(message.author.username, message.author.avatarURL({format: 'png'}));
                 } else {
                     throw 'cannot use webhooks in a DM';
                 }
@@ -43,5 +44,5 @@ module.exports = {
         } catch (err) {
             return tools.errorMessage(message, err);
         }
-	},
+    },
 };

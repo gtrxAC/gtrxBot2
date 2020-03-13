@@ -1,21 +1,13 @@
-const Discord = require('discord.js');
 const Canvas = require('canvas');
 const tools = require('../tools');
 
 module.exports = {
-    name: '',
-    aliases: [],
-    description: '',
-    usage: '',
-    nsfw: false,
-    args: false,
+    name: 'inside',
+    description: "Memegen: Sick of crying, tired of trying, yeah I'm smiling but inside I'm...",
+    usage: '[image] <text ...>',
+    args: true,
     image: true,
-    guildOnly: false,
-    ownerOnly: false,
-    requires: '',
-    cooldown: X,
-    minArgs: X,
-    maxArgs: X,
+    cooldown: 4,
     async execute(message, args) {
         try {
             //try to find an image from a link, attachment, mentioned user's avatar, last 10 messages, or your avatar
@@ -28,11 +20,25 @@ module.exports = {
             if (message.mentions.users.size) link = message.mentions.users.first().avatarURL({format: 'png'});
             if (message.attachments.size) link = message.attachments.first().url;
 
-            const canvas = Canvas.createCanvas(WIDTH, HEIGHT);
+            //create a new image
+            const canvas = Canvas.createCanvas(1000, 1140);
             const ctx = canvas.getContext('2d');
             
-            //code here
+            //draw the template on it
+            const background = await Canvas.loadImage('./assets/inside.png');
+            ctx.drawImage(background, 0, 0, 1000, 1140);
 
+            //draw the given image
+            const image = await Canvas.loadImage(link);
+            ctx.drawImage(image, 16, 745, 395, 395);
+
+            //write text, stretch it if it's too long
+            ctx.font = '72px sans-serif';
+            ctx.fillStyle = '#ffffff';
+            const width = ctx.measureText(args.join(' ')).width
+            ctx.fillText(args.join(' '), 450, 1000, 511);
+
+            //send the image
             message.channel.send({files: [canvas.toBuffer()]});
         } catch (err) {
             return tools.errorMessage(message, err);

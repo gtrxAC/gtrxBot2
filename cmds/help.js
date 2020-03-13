@@ -2,11 +2,11 @@ const Discord = require('discord.js');
 const tools = require('../tools');
 
 module.exports = {
-	name: 'help',
+    name: 'help',
     aliases: ['?', 'commands', 'cmds'],
-	description: 'Shows available commands or command info',
+    description: 'Shows available commands or command info',
     usage: '[-p] [cmd]\n\n-p: Send to this channel instead of DM.',
-	async execute(message, args) {
+    async execute(message, args) {
         try {
             //determine target by whether "-p" was added
             let target;
@@ -20,14 +20,11 @@ module.exports = {
             const embed = new Discord.MessageEmbed();
             //if no command was given, show every command in a list
             if (!args.length) {
+                const mapFunction = command => `\`${command.name}\`   ${command.description} ${command.nsfw ? '\\🔞 ' : ''}${command.ownerOnly ? '\\🔒 ' : ''}${command.image ? '\\🖼️ ' : ''}`;
                 embed.setColor(0x7289DA)
                 .setTitle('<:mdHelp:568466408548335650> Commands')
-                .setDescription(message.client.commands.map(command => `\`${command.name}\`   ${command.description}`).join('\n')+'\n\n'+
-                'You can use "help <cmd>" for info on a command.\n'+
-                'Commands starting with i are image commands.\n'+
-                'Only up to the 1st unique letter of a command is needed:\n'+
-                'emb = embed, emo = emoji, k = kill, saya = sayas, etc.')
-                .setFooter(new Date().toISOString());
+                .setDescription(message.client.commands.map(mapFunction).join('\n'))
+                .setFooter('🔞 = nsfw   🔒 = bot owner only   🖼️ = image command');
             } else {
                 //otherwise show info on one command
                 const name = args[0].toLowerCase();
@@ -36,9 +33,9 @@ module.exports = {
                 if (!command) throw "command not found";
                 embed.setColor(0x7289DA)
                 .setTitle(`<:mdHelp:568466408548335650> Command ${command.name}`)
-                .setDescription(`\`\`\`${command.description}\n`+
-                (command.aliases ? ` Aliases: ${command.aliases.join(', ')}\n` : '')+
+                .setDescription(`[Command source](https://github.com/gtrxAC/gtrxBot2/tree/master/cmds/${command.name}.js)\`\`\`${command.description}\n`+
                 (command.usage ? `   Usage: ${command.name} ${command.usage}\n` : `   Usage: ${command.name}\n`)+
+                (command.aliases ? ` Aliases: ${command.aliases.join(', ')}\n` : '')+
                 `Cooldown: ${command.cooldown || 2} sec\`\`\``)
                 .setFooter(new Date().toISOString());
             }
@@ -53,5 +50,5 @@ module.exports = {
         } catch (err) {
             return tools.errorMessage(message, err);
         }
-	},
+    },
 };

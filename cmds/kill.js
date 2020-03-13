@@ -1,10 +1,10 @@
 const tools = require('../tools');
 
 module.exports = {
-	name: 'kill',
-	description: 'Kills the specified user in a random way',
+    name: 'kill',
+    description: 'Kills the specified user in a random way',
     usage: '[text or @user]',
-	async execute(message, args) {
+    async execute(message, args) {
         try {
             //use the given text as the target, or your mention if nothing was given
             let target;
@@ -24,7 +24,7 @@ module.exports = {
                 `${target} was a mod in r/dankmemes.`,
                 `${target} ran out of ideas.`,
                 `${target} stepped on a LEGO.`
-                //add your own messages here...
+                //add your own messages here or suggest them: https://discord.gg/bRTPbpg
             ]
             const killMsg = messages[Math.floor(Math.random() * messages.length)];
 
@@ -35,5 +35,5 @@ module.exports = {
         } catch (err) {
             return tools.errorMessage(message, err);
         }
-	},
+    },
 };

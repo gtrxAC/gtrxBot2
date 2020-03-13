@@ -1,10 +1,11 @@
 const tools = require('../tools');
 
 module.exports = {
-	name: 'editsnipe',
-	description: 'Reveals the history of an edited message',
+    name: 'editsnipe',
+    aliases: ['esnipe'],
+    description: 'Reveals the history of an edited message',
     usage: '[#channel]',
-	async execute(message, args) {
+    async execute(message, args) {
         try {
             //use a mentioned channel, or the current one if none were mentioned
             let channel;
@@ -19,12 +20,12 @@ module.exports = {
             if (editedMsg === undefined) throw 'no message found';
 
             //create an embed with the message content
-            const embed = tools.makeEmbed(`${editedMsg.author} said:`)
-            .addField('Old Message', editedMsg.oldContent)
-            .addField('New Message', editedMsg.newContent);
+            const embed = tools.makeEmbed(`${editedMsg.author} said:`, '')
+            .addField('Old Message', '\u200b'+editedMsg.oldContent)
+            .addField('New Message', '\u200b'+editedMsg.newContent);
             tools.sendEmbed(message.channel, embed);
         } catch (err) {
             return tools.errorMessage(message, err);
         }
-	},
+    },
 };

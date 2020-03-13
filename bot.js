@@ -11,8 +11,8 @@ const cooldowns = new Discord.Collection();
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./cmds').filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
-	const command = require(`./cmds/${file}`);
-	client.commands.set(command.name, command);
+    const command = require(`./cmds/${file}`);
+    client.commands.set(command.name, command);
 }
 
 //make a list for the last deleted message of each channel (for snipe command)
@@ -74,16 +74,21 @@ const handleCommand = (message) => {
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 }
 
+const setStatus = () => client.user.setActivity(`${config.prefix}help | ${client.guilds.cache.size} guilds`, {type: 'LISTENING'});
 
-//log the ready message and set status
+//log the ready message and set status on startup
 client.on('ready', () => {
     console.log('');
     console.log(`${client.user.username} is ready.`);
     console.log(`* ID: ${client.user.id}`);
     console.log(`* Guilds/Users: ${client.guilds.cache.size}/${client.users.cache.size}`);
     console.log('');
-    client.user.setActivity(`${config.prefix}help | ${client.users.cache.size} users`, {type: 'LISTENING'});
+    setStatus();
 });
+
+//if amount of accessible guilds changes, update the count
+client.on('guildCreate', guild => setStatus());
+client.on('guildDelete', guild => setStatus());
 
 //handle a possible command when a message is received
 client.on('message', (message) => {
