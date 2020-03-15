@@ -23,7 +23,8 @@ module.exports = {
                 `${target} got wooooshed.`,
                 `${target} was a mod in r/dankmemes.`,
                 `${target} ran out of ideas.`,
-                `${target} stepped on a LEGO.`
+                `${target} stepped on a LEGO.`,
+                `${target} ate a bat from Wuhan, China.`
                 //add your own messages here or suggest them: https://discord.gg/bRTPbpg
             ]
             const killMsg = messages[Math.floor(Math.random() * messages.length)];
