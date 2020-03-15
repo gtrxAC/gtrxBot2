@@ -14,7 +14,7 @@ module.exports = {
             if (msgs > 99) throw 'max amount of messages is 99';
 
             //delete the messages, +1 to include the command message
-            await message.channel.bulkDelete()
+            await message.channel.bulkDelete(msgs);
 
             //send a confirmation and delete it after 3 seconds
             const embed = tools.makeEmbed('<:mdCheck:568466407616938004> Success', `deleted ${args[0]} messages`)
