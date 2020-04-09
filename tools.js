@@ -41,8 +41,8 @@ module.exports = {
     //embed: the embed to be sent
     sendEmbed(channel, embed) {
         return channel.send(embed).catch(e => {
-            channel.send(`>>> **${embed.title}**\n${embed.description}\n*${embed.footer ? embed.footer.text : ''}*\n**Warning**`+
-            `  For the best experience, make sure I can send embed links.`)
+            channel.send(`>>> **${embed.title}**\n${embed.description}\n${embed.footer ? embed.footer.text+'\n' : ''}`+
+            `  Error sending embed message, make sure I can send them.\n(${e})`)
         })
     }
 }
